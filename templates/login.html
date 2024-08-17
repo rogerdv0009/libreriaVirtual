@@ -1,0 +1,70 @@
+<html lang="es">
+    {%load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'library/bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'library/bootstrapi/font/bootstrap-icons.min.css'%}">
+    <link rel="stylesheet" href="{% static 'library/css/estilos.css'%}">
+    
+    <title>Autenticar Usuario</title>
+</head>
+<body>
+    <body>
+        <div class="login-page bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                    {% if form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                           {{form.errors}}
+                        </div>
+                    {% endif %}
+                        <div class="bg-white shadow rounded">
+                            <div class="row margin_caja">
+                                <div class="col-md-7 pe-0">
+                                    <div class="form-left h-100 py-5 px-5">
+                                        <form action="{% url 'Login' %}" class="row g-4"action="" method="POST" enctype="multipart/form-data">{%csrf_token%}
+                                                <div class="col-12">
+                                                    <label>Usuario:<span class="text-danger"></span></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-text"><i class="bi bi-person-fill"></i></div>
+                                                        {{ form.username}} 
+                                                        
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-12">
+                                                    <label>Contraseña:<span class="text-danger"></span></label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-text"><i class="bi bi-lock-fill"></i></div>
+                                                         {{ form.password }}
+                                                    </div>
+                                                </div>
+        
+                                                <div class="col-sm-6">
+                                                    <a href="#" class="float-end text-primary">¿Olvidaste tu contraseña?</a>
+                                                </div>
+        
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-primary px-4 float-end mt-4">Iniciar Sesión</button>
+                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 ps-0 d-none d-md-block">
+                                    <div class="form-right h-100 bg-primary text-white text-center pt-5">
+                                        <i class="bi bi-book"></i>
+                                        <h2 class="fs-1">Autenticarse en la Biblioteca Virtual</h2>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

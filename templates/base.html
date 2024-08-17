@@ -1,0 +1,162 @@
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Libreria{% endblock title %}</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{% static "library/bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "library/bootstrapi/font/bootstrap-icons.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/estilos.css" %}">
+    {% block estilos %}{% endblock estilos %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">   
+            <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary" id="fixed-column">
+                <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                            <i class="bi bi-house"></i>
+                        Inicio
+                      </a>
+                    </li>
+                    
+                    {% if request.user.rol == "trabajador" %}
+                      <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url "Listado_Libro" %}">
+                          <i class="bi bi-book"></i>
+                          Libros
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url 'Listado_Carrito' %}">
+                            <i class="bi bi-cart4"></i>
+                            Carrito
+                        </a>
+                      </li>
+                    {% elif request.user.rol == "jefe" %}
+                      <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url "Listado_Usuario" %}">
+                          <i class="bi bi-person-circle"></i>
+                          Usuarios
+                        </a>
+                      </li>
+                    {% elif request.user.rol == "cliente" %}
+                      <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url 'Listado_Favorito' %}">
+                            <i class="bi bi-heart"></i>
+                            Favoritos
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url "Listado_Libro_Cliente" %}">
+                          <i class="bi bi-book"></i>
+                          Libros
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url 'Listado_Carrito_Cliente' %}">
+                            <i class="bi bi-cart4"></i>
+                            Carrito
+                        </a>
+                      </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                            <i class="bi bi-tags"></i>
+                        Categorias
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                        <i class="bi bi-layout-text-window-reverse"></i>
+                        Catálogo
+                      </a>
+                    </li>
+                  </ul>
+
+                 
+
+                  <ul class="nav flex-column" style="border-top: 2px solid #000;">
+                {% if request.user.username %}
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url 'Logout' %}">
+                      <i class="bi bi-door-open"></i>
+                      Cerrar Sesión
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="{% url 'Login' %}">
+                      <i class="bi bi-person"></i>
+                      Autenticarse
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                      <i class="bi bi-person-fill-add"></i>
+                      Registrarse
+                    </a>
+                  </li>
+                {% endif %}
+                </ul>
+                <ul class="nav flex-column" style="border-top: 2px solid #000;">
+                    
+                    
+                    <div class="contactenos d-flex align-items-center gap-2 active" aria-current="page" style="text-align: center;">
+                      
+                        Contáctenos en:
+                     </div>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#" style="color: blue;">
+                        <i class="bi bi-facebook"></i>
+                      Facebook
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#" style="color: rgb(0, 204, 255);">
+                          <i class="bi bi-twitter"></i>
+                      Twitter
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#" style="color: rgb(248, 48, 48);">
+                        <i class="bi bi-youtube"></i>
+                    Youtube
+                  </a>
+                </li>
+                  </ul>
+                </div>
+            </div>
+        
+
+
+            <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+                <nav class="navbar navbar-expand navbar-light bg-light">
+                    <div class="container-fluid">
+                        <div class="nav navbar-nav">
+                            <h3>LIBROS</h3>
+                        </div>
+                    </div>
+          
+                    <form class="d-flex" role="search" action="/buscar2/" method="GET">
+                        <input class="form-control-sm me-2" type="search" placeholder="Buscar..." aria-label="Search" name="lbr">
+                        <button class="btn btn-sm btn-danger" type="submit"><i class="bi bi-search"></i></button>
+                    </form>
+                </nav>
+            </div>
+            {% block contenido %}{% endblock contenido %}
+          
+        </div>  
+                          
+    </div>
+
+    <script src="{% static 'library/jquery/cdnjs/jquery.min.js' %}"></script>
+    <script src="{% static 'library/bootstrap/js/bootstrap.bundle.js' %}"></script>
+    {% block javascript %}{% endblock javascript %}
+</body>
+</html>

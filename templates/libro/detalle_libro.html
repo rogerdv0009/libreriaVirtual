@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Listado Libros{% endblock title %}
+{% block contenido %} 
+
+    <section class="libro_detalle">
+        <div class="completo_seccion_detalle_libro">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="imagen_detalle">
+                            <img src="/media/{{object.foto}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="titulo_libro">
+                            <h2>{{object.nombre}}</h2>
+                        </div>
+                        <div class="genero_libro">
+                            <h4>{{object.genero}}</h4>
+                        </div>
+                        <div class="precio_libro">
+                            <h3><strong>${{object.precio}}</strong></h3>
+                        </div>
+                        <div class="autor_libro">
+                            <h5>{{object.autor}}</h5>
+                        </div>
+                        <div class="fecha_publicado">
+                            <h5>{{object.fecha_publicado}}</h5>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="sinopsis_libro">
+                            <p>{{object.sinopsis}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

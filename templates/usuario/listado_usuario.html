@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Listado Usuarios{% endblock title %}
+{% block contenido %}
+
+    <section class="seccion_libro">
+        <div class="completo_seccion">
+            <div class="insertar_libro">
+                <button type="button" onclick="CrearUsuario('{% url "Crear_Usuario" %}')" class="btn btn-primary btn-lg">Insertar <i class="bi bi-plus-circle"></i></button>
+            </div>
+            <hr>
+            <div class="tabla_libro">
+                <table class="tabla-reporte" id="tabla_usuario">
+                    <thead>
+                        {% block columns %}
+                            <tr>
+                                <th style="width: 10%; padding: 3px;  border-bottom: 1px solid black;">ID</th>
+                                <th style="width: 20%; padding: 3px;  border-bottom: 1px solid black;">Username</th>
+                                <th style="width: 20%; padding: 3px;  border-bottom: 1px solid black;">Rol</th>
+                                <th style="width: 20%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Email</th>
+                                <th style="width: 30%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Acción</th>
+                            </tr>
+                        {% endblock %}
+                    </thead>
+                    <tbody>
+                        {% block rows %}
+                            {% if object_list %}
+                                {% for usuario in object_list %}
+                                    <tr>
+                                        <td style="width: 10%;">{{ usuario.pk }}</td>
+                                        <td style="width: 20%;">{{ usuario.username }}</td>
+                                        <td style="width: 20%;">{{ usuario.rol }}</td>
+                                        <td style="width: 20%;">{{ usuario.email }}</td>
+                                        <td style="width: 30%; text-align: center;">
+                                            <button type="button" onclick="EditarUsuario('{% url "Editar_Usuario" usuario.pk %}')" class="btn btn-warning"><i class="bi bi-pencil-square"></i></button>
+                                            <button type="button" onclick="EliminarUsuario('{% url "Eliminar_Usuario" usuario.pk %}')" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <div class="mensaje">
+                                    <h3>No existen Libros en la Libreria </h3>
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+        <div class="modal fade" id="crear_usuario" role="dialog">
+    
+        </div>
+        <div class="modal fade" id="editar_usuario" role="dialog">
+    
+        </div>
+        <div class="modal fade" id="eliminar_usuario" role="dialog">
+    
+        </div>
+    </section>
+    
+{% endblock contenido %}
+
+{% block javascript %}
+<script type="application/javascript">
+    function CrearUsuario(url){
+        $('#crear_usuario').load(url, function(){
+            $('#crear_usuario').modal('show');
+        });
+    }
+    function EditarUsuario(url){
+        $('#editar_usuario').load(url, function(){
+            $('#editar_usuario').modal('show');
+        });
+    }
+    function EliminarUsuario(url){
+        $('#eliminar_usuario').load(url, function(){
+            $('#eliminar_usuario').modal('show');
+        });
+    }
+</script>
+<script type="application/javascript">
+    $(function () {
+        $('#tabla_usuario').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+    });
+</script>   
+<script src="{% static 'library/datatable/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    
+{% endblock javascript %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Listado Libros{% endblock title %}
+{% block contenido %}
+
+    <section class="seccion_libro">
+        <div class="completo_seccion">
+            <div class="insertar_libro">
+                <button type="button" onclick="CrearLibro('{% url "Crear_Libro" %}')" class="btn btn-primary btn-lg">Insertar <i class="bi bi-plus-circle"></i></button>
+            </div>
+            <hr>
+            <div class="tabla_libro">
+                <table class="tabla-reporte" id="tabla">
+                    <thead>
+                        {% block columns %}
+                            <tr>
+                                <th style="width: 20%; padding: 3px; text-align: center; border-bottom: 1px solid black;">ID</th>
+                                <th style="width: 20%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Titulo</th>
+                                <th style="width: 20%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Autor</th>
+                                <th style="width: 10%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Genero</th>
+                                <th style="width: 30%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Acción</th>
+                            </tr>
+                        {% endblock %}
+                    </thead>
+                    <tbody>
+                        {% block rows %}
+                            {% if object_list %}
+                                {% for libro in object_list %}
+                                    <tr>
+                                        <td style="width: 10%;">{{ libro.pk }}</td>
+                                        <td style="width: 20%;">{{ libro.nombre }}</td>
+                                        <td style="width: 20%;">{{ libro.autor }}</td>
+                                        <td style="width: 20%;">{{ libro.genero }}</td>
+                                        <td style="width: 30%; text-align: center;">
+                                            <button type="button" onclick="EditarLibro('{% url "Editar_Libro" libro.pk %}')" class="btn btn-warning"><i class="bi bi-pencil-square"></i></button>
+                                            <button type="button" onclick="EliminarLibro('{% url "Eliminar_Libro" libro.pk %}')" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <div class="mensaje">
+                                    <h3>No existen Libros en la Libreria </h3>
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+        <div class="modal fade" id="crear_libro" role="dialog">
+    
+        </div>
+        <div class="modal fade" id="editar_libro" role="dialog">
+    
+        </div>
+        <div class="modal fade" id="eliminar_libro" role="dialog">
+    
+        </div>
+    </section>
+    
+{% endblock contenido %}
+
+{% block javascript %}
+<script type="application/javascript">
+    function CrearLibro(url){
+        $('#crear_libro').load(url, function(){
+            $('#crear_libro').modal('show');
+        });
+    }
+    function EditarLibro(url){
+        $('#editar_libro').load(url, function(){
+            $('#editar_libro').modal('show');
+        });
+    }
+    function EliminarLibro(url){
+        $('#eliminar_libro').load(url, function(){
+            $('#eliminar_libro').modal('show');
+        });
+    }
+</script>
+<script type="application/javascript">
+    $(function () {
+        $('#tabla').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+    });
+</script>   
+<script src="{% static 'library/datatable/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    
+{% endblock javascript %}

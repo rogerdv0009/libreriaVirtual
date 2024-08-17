@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Listado Carritos{% endblock title %}
+{% block contenido %}
+
+    <section class="seccion_libro">
+        <div class="completo_seccion">
+            <div class="insertar_libro">
+                <h3>Listado de carritos asociados al Cliente</h3>
+                <h4>Dinero actual del usuario <i class="bi bi-cash-coin"></i> <strong>{{ request.user.billetera }}</strong></h4>
+            </div>
+            <hr>
+            <div class="tabla_libro">
+                <table class="tabla-reporte" id="tabla_carrito_cliente">
+                    <thead>
+                        {% block columns %}
+                            <tr>
+                                <th style="width: 20%; padding: 3px; text-align: center; border-bottom: 1px solid black;">ID</th>
+                                <th style="width: 20%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Genero</th>
+                                <th style="width: 20%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Libro</th>
+                                <th style="width: 10%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Cantidad</th>
+                                <th style="width: 30%; padding: 3px; text-align: center; border-bottom: 1px solid black;">Acción</th>
+                            </tr>
+                        {% endblock %}
+                    </thead>
+                    <tbody>
+                        {% block rows %}
+                            {% if object_list %}
+                                {% for carrito in object_list %}
+                                    <tr>
+                                        <td style="width: 10%;">{{ carrito.pk }}</td>
+                                        <td style="width: 20%;">{{ carrito.libro.genero }}</td>
+                                        <td style="width: 20%;">{{ carrito.libro.nombre }}</td>
+                                        <td style="width: 20%;">{{ carrito.cantidad }}</td>
+                                        <td style="width: 30%; text-align: center;">
+                                            <a class="btn btn-outline-success" href="{% url 'Cambiar_Aceptado' carrito.pk %}"><i class="bi bi-cart-check"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <div class="mensaje">
+                                    <h3>No existen Carritos creados</h3>
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+                    </tbody>
+                </table> 
+            </div>
+        </div>
+    </section>
+    
+{% endblock contenido %}
+
+{% block javascript %}
+<script type="application/javascript">
+    $(function () {
+        $('#tabla_carrito_cliente').DataTable({
+            responsive: true,
+            autoWidth: false
+        });
+    });
+</script>   
+<script src="{% static 'library/datatable/datatables-1.10.20/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/plugins/responsive-2.2.3/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'library/datatable/datatables-1.10.20/plugins/responsive-2.2.3/js/responsive.bootstrap4.min.js' %}"></script>
+    
+{% endblock javascript %}

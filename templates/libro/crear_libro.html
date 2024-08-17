@@ -1,0 +1,66 @@
+{% load static %}
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Crear Libro <i class="bi bi-book-half"></i></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'Crear_Libro' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <div class="form_locacion_turistica margin_btm">
+                                <div class="form-group">
+                                    <label for="">{{ form.foto.label }}</label>
+                                    {{ form.foto }}
+                                </div>
+                            </div>
+                            <div class="form_estancia margin_btm">
+                                <div class="form-group">
+                                    <label for="">{{ form.nombre.label }}</label>
+                                    {{ form.nombre }}
+                                </div>
+                            </div>
+                            <div class="form_tiempo_estancia margin_btm">
+                                <div class="form-group">
+                                    <label for="">{{ form.autor.label }}</label>
+                                    {{ form.autor }}
+                                </div>
+                            </div>
+                            <div class="form_imagen_paquete margin_btm">
+                                <div class="form-group">
+                                    <label for="">{{ form.genero.label }}</label>
+                                    {{ form.genero }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                            <div class="form_precio margin_btm">
+                                <div class="form-group">
+                                    <label for="">{{ form.sinopsis.label }}</label>
+                                    {{ form.sinopsis }}
+                                </div>
+                            </div>
+                            <div class="form_calificacion margin_btm">
+                                <div class="form-group">
+                                    <label for="">{{ form.precio.label }}</label>
+                                    {{ form.precio }}
+                                </div>
+                            </div>
+                            <div class="form_fecha_entrada margin_btm">
+                                <div class="form-group">
+                                    <label for="">{{ form.fecha_publicado.label }}</label>
+                                    {{ form.fecha_publicado }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger btn-lg" type="button" data-bs-dismiss="modal">Cancelar <i class="bi bi-x-circle"></i></button>
+                    <button class="btn btn-primary btn-lg" type="submit">Crear Libro <i class="bi bi-plus-circle"></i></button>
+                </div>
+            </form>   
+        </div>
+    </div>

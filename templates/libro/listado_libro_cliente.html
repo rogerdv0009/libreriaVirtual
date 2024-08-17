@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Listado Libros{% endblock title %}
+{% block contenido %}
+
+    <section class="listado_libro_cliente">
+        <div class="completo_seccion_libro_cliente">
+            <div class="titulo_listado">
+                <p>Listado de Libros</p>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-4">
+                    <div class="formulario_filtrar">
+                        <form class="filtrar_c" action="{% url 'Listado_Libro_Cliente' %}" method="get">
+                            {% csrf_token %}
+                            <select class="form-control" name="catalogo" id="revisado">
+                                <option value="Drama">Drama</option>
+                                <option value="Fantasía">Fantasía</option>
+                                <option value="Acción">Acción</option>
+                                <option value="Comedia">Comedia</option>
+                            </select>
+                            <button type="submit" class="btn btn-warning"><i class="bi bi-funnel"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    {% if object_list %}
+                        {% for libro in object_list %}
+                            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-3">
+                                <div class="card_paquete">
+                                    <div class="img_paquete">
+                                        <img src="/media/{{ libro.foto }}" alt="">
+                                        <div class="mostrar_paquete">
+                                            <a href="{% url 'Detalle_Libro' libro.pk %}"><i class="bi bi-eye-fill"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="descripcion_paquete">
+                                        <div class="locacion_paquete">
+                                            <p><i class="fas fa-bolt"></i> {{ libro.nombre }}</p>
+                                        </div>
+                                        <div class="tiempo_estancia_paquete">
+                                            <p>{{ libro.autor }}</p>
+                                        </div>
+                                        <div class="precio_paquete">
+                                            <p>$ {{ libro.precio }}</p>
+                                        </div>
+                                        <div class="acciones_paquete">
+                                            <form action="{% url 'Crear_Carrito' %}" method="post" class="formulario_carrito">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="user" value="{{ request.user.pk }}">
+                                                <input type="hidden" name="libro" value="{{ libro.pk }}">
+                                                <select class="form-control" name="cantidad" id="cantidad_libro">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                                <button type="submit" class="btn btn-outline-success">
+                                                    <i class="bi bi-cart4"></i>
+                                                </button>
+                                            </form>
+                                            {% if libros_favoritos %}
+                                                {% for libro_favorito in libros_favoritos %}
+                                                    {% if libro_favorito.libro.pk == libro.pk%}
+                                                        {% if libro_favorito.user.pk == request.user.pk%}
+                                                            <h3><i class="bi bi-bookmark-heart"></i></h3>
+                                                        {% else %}
+                                                            <form action="{% url 'Crear_Favorito' %}" method="post">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="user" value="{{ request.user.pk }}">
+                                                                <input type="hidden" name="libro" value="{{ libro.pk }}">
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    <i class="bi bi-heart-fill"></i>
+                                                                </button>
+                                                            </form> 
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <form action="{% url 'Crear_Favorito' %}" method="post">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="user" value="{{ request.user.pk }}">
+                                                            <input type="hidden" name="libro" value="{{ libro.pk }}">
+                                                            <button type="submit" class="btn btn-danger">
+                                                                <i class="bi bi-heart-fill"></i>
+                                                            </button>
+                                                        </form>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <form action="{% url 'Crear_Favorito' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="user" value="{{ request.user.pk }}">
+                                                    <input type="hidden" name="libro" value="{{ libro.pk }}">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <i class="bi bi-heart-fill"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                                       
+                                            {% comment %} <form action="{% url 'Crear_Favorito' %}" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="user" value="{{ request.user.pk }}">
+                                                <input type="hidden" name="libro" value="{{ libro.pk }}">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="bi bi-heart-fill"></i>
+                                                </button>
+                                            </form> {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                            <h1>No existen objetos actuales o no coinciden las características de Búsqueda</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock contenido %}
